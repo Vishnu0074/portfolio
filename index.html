@@ -1,0 +1,1227 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <title>Vishnu - Flutter Developer</title>
+  <meta name="description" content="Vishnu - Flutter Developer" />
+  <meta name="theme-color" content="#000000" />
+  <style>
+    :root {
+      --font-sans: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+      --font-mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, 'Liberation Mono', 'Courier New', monospace;
+
+      --gold: #ffffff;
+      --gold-bright: #ffffff;
+      --gold-deep: #ffffff;
+      --gold-faint: #ffffff;
+      --amber-text: #ffffff;
+      --amber-dim: #ffffff;
+      --white: #ffffff;
+      --black: #000000;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html,
+    body {
+      margin: 0;
+      padding: 0;
+      min-height: 100%;
+      background: linear-gradient(180deg, #000000 0%, #111111 40%, #000000 100%);
+      color: #ffffff;
+      font-family: var(--font-mono);
+      -webkit-font-smoothing: antialiased;
+      text-rendering: optimizeLegibility;
+      scroll-behavior: smooth;
+      overflow-x: hidden;
+    }
+
+    ::selection {
+      background: rgba(248, 212, 136, 0.25);
+      color: #fff;
+    }
+
+    .page {
+      background: var(--black);
+    }
+
+    /* Accessible/SEO heading that must not disturb the canvas hero. */
+    .visually-hidden {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      margin: -1px;
+      padding: 0;
+      overflow: hidden;
+      clip: rect(0 0 0 0);
+      clip-path: inset(50%);
+      white-space: nowrap;
+      border: 0;
+    }
+
+    /* ---------- SWIRL ---------- */
+    #swirl {
+      position: fixed;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      background: transparent;
+      z-index: 0;
+    }
+
+    .page-content {
+      position: relative;
+      z-index: 1;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      gap: 2rem;
+      padding: 10rem 1.75rem 4rem;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .topbar {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+      width: min(1200px, 100%);
+      margin: 0 auto;
+      padding: 0.95rem 1.75rem;
+      background: rgba(5, 5, 5, 0.78);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+      backdrop-filter: blur(24px);
+      z-index: 3;
+    }
+
+    .brand {
+      font-size: 0.9rem;
+      font-weight: 700;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+    }
+
+    .nav-links {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1.25rem;
+      font-size: 0.95rem;
+    }
+
+    .nav-links a {
+      color: #ffffff;
+      text-decoration: none;
+      opacity: 0.8;
+      transition: opacity 180ms ease;
+    }
+
+    .nav-links a:hover {
+      opacity: 1;
+    }
+
+    .hero {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: calc(100vh - 120px);
+      padding-top: 1rem;
+      text-align: center;
+    }
+
+    .hero-copy {
+      max-width: 700px;
+      margin: 0 auto;
+      padding: 2.25rem 1.8rem;
+      border-radius: 28px;
+      background: rgba(255, 255, 255, 0.08);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      backdrop-filter: blur(22px);
+      box-shadow: 0 35px 90px rgba(0, 0, 0, 0.22);
+    }
+
+    .eyebrow {
+      font-size: 0.75rem;
+      letter-spacing: 0.42em;
+      text-transform: uppercase;
+      color: rgba(255, 255, 255, 0.68);
+      margin-bottom: 0.9rem;
+    }
+
+    .hero-title {
+      font-size: clamp(2rem, 4vw, 3rem);
+      line-height: 1.05;
+      margin: 0;
+      letter-spacing: -0.03em;
+    }
+
+    .hero-copy p {
+      font-size: 0.95rem;
+      line-height: 1.75;
+      max-width: 34rem;
+      margin: 1.35rem auto 0;
+      color: rgba(255, 255, 255, 0.86);
+    }
+
+    .hero-actions {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 0.75rem;
+      margin-top: 1.5rem;
+    }
+
+    .hero-actions a {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-width: 140px;
+      padding: 0.85rem 1.3rem;
+      border-radius: 999px;
+      border: 1px solid rgba(255, 255, 255, 0.14);
+      color: #ffffff;
+      text-decoration: none;
+      background: rgba(255, 255, 255, 0.06);
+      font-size: 0.92rem;
+      letter-spacing: 0.01em;
+      transition: background 200ms ease, transform 200ms ease, border-color 200ms ease;
+    }
+
+    .hero-actions a:hover {
+      background: rgba(255, 255, 255, 0.16);
+      transform: translateY(-1px);
+      border-color: rgba(255, 255, 255, 0.28);
+    }
+
+    .section {
+      max-width: 1200px;
+      width: 100%;
+      margin: 0 auto;
+      display: grid;
+      gap: 1.5rem;
+    }
+
+    .section-heading {
+      font-size: 0.95rem;
+      letter-spacing: 0.35em;
+      text-transform: uppercase;
+      margin-bottom: 1rem;
+      color: rgba(255, 255, 255, 0.7);
+    }
+
+    .glass-card {
+      background: rgba(255, 255, 255, 0.08);
+      border: 1px solid rgba(255, 255, 255, 0.14);
+      border-radius: 28px;
+      backdrop-filter: blur(24px);
+      box-shadow: 0 30px 80px rgba(0, 0, 0, 0.22);
+      padding: 2rem;
+    }
+
+    .glass-card h2 {
+      margin: 0 0 1rem;
+      font-size: clamp(2rem, 4vw, 3rem);
+      line-height: 1.05;
+    }
+
+    .glass-card p {
+      margin: 0;
+      color: rgba(255, 255, 255, 0.86);
+      line-height: 1.85;
+    }
+
+    .work-grid {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .project-card {
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      gap: 1.2rem;
+    }
+
+    .project-card h3 {
+      margin: 0;
+      font-size: 1.5rem;
+    }
+
+    .project-card p {
+      margin: 0;
+      color: rgba(255, 255, 255, 0.8);
+    }
+
+    .project-card a {
+      color: #ffffff;
+      text-decoration: none;
+      font-weight: 600;
+      display: inline-flex;
+      gap: 0.5rem;
+      align-items: center;
+    }
+
+    .skill-list {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.75rem;
+      margin-top: 1.5rem;
+    }
+
+    .skill-chip {
+      padding: 0.85rem 1.2rem;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.08);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      color: #ffffff;
+      font-size: 0.95rem;
+    }
+
+    .footer {
+      max-width: 900px;
+      margin: 0 auto;
+    }
+
+    .footer-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1rem;
+      margin-top: 1.75rem;
+    }
+
+    .footer-actions a {
+      color: #ffffff;
+      text-decoration: none;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.18);
+      padding-bottom: 2px;
+    }
+
+    .social-icons {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1rem;
+      margin-top: 2rem;
+    }
+
+    .social-icon {
+      width: 2.5rem;
+      height: 2.5rem;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.08);
+      border: 1px solid rgba(255, 255, 255, 0.14);
+      color: #ffffff;
+      transition: transform 180ms ease, background 180ms ease;
+    }
+
+    .social-icon:hover {
+      background: rgba(255, 255, 255, 0.18);
+      transform: translateY(-2px);
+    }
+
+    @media (max-width: 900px) {
+      .hero {
+        min-height: auto;
+      }
+
+      .work-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .topbar {
+        flex-direction: column;
+        align-items: flex-start;
+        padding: 0.95rem 1.5rem;
+      }
+
+      .hero-copy {
+        padding: 2rem 1.4rem;
+      }
+    }
+
+    @media (max-width: 640px) {
+      .page-content {
+        padding: 9.5rem 1rem 3rem;
+      }
+
+      .hero-title {
+        font-size: clamp(1.8rem, 8vw, 2.6rem);
+      }
+
+      .hero-copy p {
+        max-width: 100%;
+      }
+
+      .nav-links {
+        gap: 0.75rem;
+      }
+    }
+  </style>
+</head>
+
+<body class="page">
+  <canvas id="swirl"></canvas>
+  <div class="page-content">
+    <header class="topbar">
+      <div class="brand">Vishnu S</div>
+      <nav class="nav-links" aria-label="Main site navigation">
+        <a href="#about">About</a>
+        <a href="#work">Work</a>
+        <a href="#skills">Skills</a>
+        <a href="#contact">Contact</a>
+      </nav>
+    </header>
+
+    <main class="hero">
+      <div class="hero-copy">
+        <div class="eyebrow">Flutter Developer</div>
+        <h1 class="hero-title">Crafting polished cross-platform experiences in Dart.</h1>
+        <p>Designing minimal, responsive mobile apps with clean architecture, refined animations, and thoughtful user interfaces.</p>
+        <div class="hero-actions">
+          <a href="#work">View Projects</a>
+          <a href="#contact">Say Hello</a>
+        </div>
+      </div>
+    </main>
+
+    <section id="about" class="section">
+      <div class="glass-card">
+        <div class="section-heading">About</div>
+        <h2>Flutter-first portfolio with strong product focus.</h2>
+        <p>I'm a Flutter developer building intuitive apps that feel premium and fast. I combine UI craftsmanship with scalable code, motion design, and pixel-perfect layouts for mobile and web.</p>
+      </div>
+    </section>
+
+    <section id="work" class="section work-grid">
+      <article class="glass-card project-card">
+        <div class="section-heading">Featured</div>
+        <h3>Widget Studio</h3>
+        <p>A toolkit app for building reusable Flutter components with live preview, theme control, and layered interactions.</p>
+        <a href="#contact">See case study</a>
+      </article>
+      <article class="glass-card project-card">
+        <div class="section-heading">Featured</div>
+        <h3>Pulse Finance</h3>
+        <p>Modern finance app with sleek chart animations, secure onboarding, and responsive layout for both mobile and desktop.</p>
+        <a href="#contact">View details</a>
+      </article>
+    </section>
+
+    <section id="skills" class="section">
+      <div class="glass-card">
+        <div class="section-heading">Skills</div>
+        <h2>Flutter, Dart, UI, animation, and mobile-first product design.</h2>
+        <div class="skill-list">
+          <span class="skill-chip">Flutter</span>
+          <span class="skill-chip">Dart</span>
+          <span class="skill-chip">Clean Architecture</span>
+          <span class="skill-chip">Responsive UI</span>
+          <span class="skill-chip">Motion Design</span>
+          <span class="skill-chip">Firebase</span>
+          <span class="skill-chip">REST & GraphQL</span>
+          <span class="skill-chip">Cross-platform Web</span>
+        </div>
+      </div>
+    </section>
+
+    <footer id="contact" class="footer">
+      <div class="glass-card">
+        <div class="section-heading">Contact</div>
+        <h2>Let's build your next Flutter experience.</h2>
+        <p>I'm available for freelance work, collaboration, and new product opportunities.</p>
+        <div class="footer-actions">
+          <a href="mailto:hello@example.com">hello@example.com</a>
+          <a href="https://linkedin.com" target="_blank" rel="noopener noreferrer">LinkedIn</a>
+        </div>
+        <div class="social-icons">
+          <a class="social-icon" href="https://github.com" target="_blank" rel="noopener noreferrer" aria-label="GitHub">
+            <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor"><path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.387.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61-.546-1.387-1.333-1.757-1.333-1.757-1.09-.744.083-.729.083-.729 1.205.084 1.84 1.236 1.84 1.236 1.07 1.834 2.807 1.304 3.492.998.108-.776.418-1.304.762-1.604-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.468-2.38 1.235-3.22-.123-.303-.535-1.523.117-3.176 0 0 1.008-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.655 1.653.243 2.873.12 3.176.77.84 1.232 1.91 1.232 3.22 0 4.61-2.805 5.625-5.475 5.92.43.37.81 1.096.81 2.21 0 1.598-.015 2.884-.015 3.276 0 .32.21.694.825.576C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"/></svg>
+          </a>
+          <a class="social-icon" href="https://linkedin.com" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn">
+            <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor"><path d="M4.98 3.5C4.98 4.88 3.88 6 2.5 6S0 4.88 0 3.5 1.12 1 2.5 1 4.98 2.12 4.98 3.5zM.24 8.5h4.52V24H.24V8.5zm7.74 0h4.34v2.1h.06c.6-1.14 2.06-2.34 4.24-2.34 4.54 0 5.38 2.98 5.38 6.86V24h-4.52v-7.26c0-1.73-.03-3.96-2.41-3.96-2.42 0-2.8 1.9-2.8 3.86V24H8.0V8.5z"/></svg>
+          </a>
+          <a class="social-icon" href="https://twitter.com" target="_blank" rel="noopener noreferrer" aria-label="Twitter">
+            <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor"><path d="M24 4.557a9.83 9.83 0 0 1-2.828.775A4.932 4.932 0 0 0 23.337 3.3a9.864 9.864 0 0 1-3.127 1.195 4.916 4.916 0 0 0-8.384 4.482A13.94 13.94 0 0 1 1.671 3.149 4.916 4.916 0 0 0 3.195 9.72a4.9 4.9 0 0 1-2.228-.616c-.054 2.28 1.581 4.415 3.949 4.89a4.935 4.935 0 0 1-2.224.084 4.92 4.92 0 0 0 4.596 3.417A9.867 9.867 0 0 1 0 19.54a13.94 13.94 0 0 0 7.548 2.212c9.056 0 14.01-7.507 14.01-14.01 0-.214-.005-.426-.014-.637A10.012 10.012 0 0 0 24 4.557z"/></svg>
+          </a>
+          <a class="social-icon" href="mailto:hello@example.com" aria-label="Email">
+            <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor"><path d="M12 13.5L0 5V19c0 1.1.9 2 2 2h20c1.1 0 2-.9 2-2V5l-12 8.5zm0-2.1L22.16 5H1.84L12 11.4z"/></svg>
+          </a>
+        </div>
+      </div>
+    </footer>
+  </div>
+  <script>
+    // ============================================================
+    //  Swirl ASCII shader — ported from swirl.tsx to vanilla JS.
+    //  Gold/amber ASCII on black, white "MIDJOURNEY MEDICAL" logo.
+    // ============================================================
+    const clamp = (min, v, max) => Math.min(Math.max(v, min), max);
+    const easeOutQuad = (t) => t * (2.0 - t);
+    const mix = (a, b, t) => a * (1 - t) + b * t;
+
+    const swirlText = `Flutter close up, modern cowboy on a ranch, his eyes are filled with the cosmos, realistic
+    Flutter city areal perspective. streets glowing, concrete architecture, green roofs, people on the streets
+    Flutter the beginning of the universe by Monet
+    Flutter looking up a never ending staircase by Jean Giraud Moebius
+    Flutter abstract, cycle, organic, powerful, behance
+    Flutter gorgeous bouquet still life painting in the style of Odilon Redon and Henri Fantin-Latour
+    Flutter a warm sunny beach near an ocean full of pikachu's
+    Flutter 3d render of gold rings, geometric, circles, triangles, psychedelic, infinity pool, eccojams, vaporwave, oneohtrix point never, golden hour, glossy reflections and light rays, portals into other worlds
+    Flutter intricate jungle landscape by albrecht durer, henri rousseau, pieter brueghel the elder, mattisse
+    Flutter cyberpunk cat rabbit hacker, googles, anime style
+    Flutter banana with glasses dancing, ghibli style
+    Flutter corgis dancing in vibrant victorian dresses, Rococo style, in a large luxurious ballroom
+    Flutter A wise/meditating/fantasy wizard sitting in complex/intricate meadow with mountains/fields, painted by Japanese artist Koji Miromoto using detailed/hyperfine/lineart/print black paper ink techniques and exotic glowy psychedelic ink, autochrome colors/style. Stylized/detailed/textured, gradients, graduated colors, fine line details.
+    Flutter 1960s illustration of the beginning of life on Earth
+    Flutter commodore 1351 mouse. 80s sythwave style. hyper realistic
+    Flutter map of steampunk desert
+    Flutter francisco goya scene oil painting watercolor sci-fi science fiction cyberpunk time machine
+    Flutter Portrait of a cyber glitch sorceress causing video corruption with her magic
+    Flutter a realistic ancient temple, crumbling stone, vines, extreme detail, statues, octane render, volumetric fog, realistic lighting, reflections
+    Flutter giant red crystals in a desert with two suns
+    Flutter Robin Williams in the style of John Allison
+    Flutter a professional photorealistic Portrait of an Astronaut by Peter Mohrbacher,Shaun Tan and Seb McKinnon,realistic eyes,realistic hair,,Beautiful Hit Tech costume and Helmet details,Beautiful dramatic dark moody lighting,Cinematographic Atmosphere,photorealism glossy magazine painting,Octane Render,Deep Color,8k Resolution,High Details,Flickr,DSLR,CGsociety,Artstation
+    Flutter Matter condensed from energy, life built upon matter, consciousness upon life
+    Flutter hyperreal swirling watercolors trapped in a soap bubble, 4k render
+    Flutter beautiful painting of clouds with sunrise, by john martin, Trending on artstation, pastel aesthetic
+    Flutter modern futuristic lampshade with art nouveau inspiration
+    Flutter photo shot on Leica IIIf with 50mm f/2 Summar; 1/50 sec; f/4
+    Flutter sharp alphabet typography by Walter Gropius
+    Flutter four dogs playing poker in a crowded room, by Malcolm Liepke and Lovis Corinth, oilpainting
+    Flutter invitation made with old paper written with cursive font pyrographic words in the center | red wax seal above in the top-left corner, cinematic light, artstation
+    Flutter aisle view of the festival street market in AlUla, many booths, seating areas, natural materials, cinematic shot
+    Flutter japanese temple, sakura, detailed oil painting, by Mateusz Urbanowicz
+    Flutter a stegosaurus drawn by John Singer Sargent
+    Flutter a mysterious forest with many fireflies, trees with large roots covered in moss, green vegetation, Studio Ghibli animation style, Japanese animation film background,
+    Flutter the universe in our ancestors eyes
+    Flutter The inside of a gothic cathedral that looks like a tropical alien utopian jungle rainforest, dramatic cinematic lighting
+    Flutter A hero stands alone, artstation, highly detailed, cinematic
+    Flutter symmetric texture repetition on a tree on a beautiful mountain landscape
+    Flutter midcentury luchador mask, risograph
+    Flutter ultra detailed line drawing, black and white and red, pen and ink, high tech cyberpunk geisha with headphones and sunglasses and VR goggles in style of Shohei Otomo
+    Flutter interior of master bedroom in victorian mansion, window, dan mindel cinematography, 35mm, movie scene, pitch black, realistic lighting, perspective shots, moody atmosphere, light coming from outside, HDRI
+    Flutter the alien robot queen holding a party at the dome castle in HQ Cloud City during a technicolor sunset
+    Flutter corporate memphis style, mural, pride month, white background, vector, characters waving pride flags, celebration
+    Flutter abstract painting of coral reef
+    Flutter a calico cat taking a nap on a kiwi
+    Flutter Dreamy landscape depiction inspired by the works of Katsushika Hokusai, trending on artstation
+    Flutter garden bridge over swan pond monet garden lillies and hanging trees art
+    Flutter green dragon roosting above its lair in the ruins of a fantasy medieval city
+    Flutter rainwater flowing through a complex system of ancient stone pipes and a gargoyle watching
+    Flutter butterflies flit in a sunlit field. Hiroshige Japanese woodblock print.
+    Flutter hourglass heart, liquid, grand canyon background, fleeting, ephemerality of time
+    Flutter miniature watermelon delicately balanced on fingertip
+    Flutter a phone held extremely close against an xray of a skeleton sitting on a sofa, side by side view
+    Flutter eclipse in a tiny keychain bottle, dangling around a walking woman's purse, dynamic pose, macro photography
+    Flutter peaceful prehistoric marine lagaxy life, adventure, bold outlines, bold colors, psychedelic swirls patterns
+    Flutter kid's back, low angle, staring up at mobius spaceship landing in ancient china
+    Flutter Jupiter sitting on a chair on Saturn
+    Flutter marble sculpture of an orange, museum gallery, exhibit
+    Flutter dancing female astronaut exploring a floating food planet, bold colors, bold outlines, tshirt design
+    Flutter dead tree and castle shaped like the silhouette of a skull, negative space
+    Flutter cute little acorn doll with glasses in the forest, tilt shift, intricate details, 8k, photoshoot, contrast, studio lighting
+    Flutter dolphin submarine pod flying in space, saturn background, bold outlines
+    Flutter zebra strips manga portraits
+    Flutter an illustration of a wooden magic wand with an aura of void around it, stars glitter subtly around it, closeup, fantasy card game art trending on artstation concept art by Jason Chan`;
+
+    const swirlLines = swirlText.split('\n').map((e) => e.replace(/\t/g, '    '));
+
+    function normalizeLogoLines(lines) {
+      const width = Math.max(...lines.map((line) => line.length));
+      return lines.map((line) => line.padEnd(width, ' '));
+    }
+
+    function centerLogoLines(lines) {
+      const width = Math.max(...lines.map((line) => line.length));
+      return lines.map((line) => {
+        const leftPadding = Math.floor((width - line.length) / 2);
+        return `${' '.repeat(leftPadding)}${line}`.padEnd(width, ' ');
+      });
+    }
+const desktopLogoLines = normalizeLogoLines([
+  "__   _____ ___ _  _ _  _ _   _ ",
+  "\\ \\ / /_ _/ __| || | \\| | | | |",
+  " \\ V / | |\\__ \\ __ | .` | |_| |",
+  "  \\_/ |___|___/_||_|_|\\_|\\___/ ",
+  "                               ",
+]);
+
+// Same logo for mobile (already short enough).
+const mobileLogoLines = centerLogoLines([
+  "__   _____ ___ _  _ _  _ _   _ ",
+  "\\ \\ / /_ _/ __| || | \\| | | | |",
+  " \\ V / | |\\__ \\ __ | .` | |_| |",
+  "  \\_/ |___|___/_||_|_|\\_|\\___/ ",
+]);
+
+    // The swirl exclusion zone keeps amber swirl chars out of the lettering. The original ±1
+    // horizontal halo was tuned for the dense, narrow home logo; this wider, more open figlet
+    // "small" font has interior letter counters (the holes in O/D/R/A) up to a few cells wide, so
+    // a thin halo let a handful of swirl chars bleed inside. We close those interior gaps WITHOUT
+    // adding any outer margin (no vertical/edge expansion — that produced a black plate around the
+    // whole word): a non-glyph cell is excluded only when it has a glyph within INTERIOR_FILL on
+    // BOTH sides of its row, i.e. it sits inside a counter rather than in the open swirl field.
+    const INTERIOR_FILL = 4;
+    function buildLogoMask(logoLines) {
+      const w = logoLines[0].length;
+      return logoLines.map((line) => {
+        const isGlyph = (x) => x >= 0 && x < w && line[x] !== ' ';
+        return Array.from({ length: w }, (_unused, x) => {
+          if (isGlyph(x) || isGlyph(x - 1) || isGlyph(x + 1)) return true; // glyph or ±1 halo
+          let left = false;
+          let right = false;
+          for (let d = 1; d <= INTERIOR_FILL; d++) {
+            if (isGlyph(x - d)) left = true;
+            if (isGlyph(x + d)) right = true;
+          }
+          return left && right; // interior gap between two nearby strokes on this row
+        });
+      });
+    }
+
+    const desktopLogoMask = buildLogoMask(desktopLogoLines);
+    const mobileLogoMask = buildLogoMask(mobileLogoLines);
+
+    const { sin, cos, round, sqrt, max, floor, ceil } = Math;
+    const AMBER_RGB = [0 / 255, 31 / 255, 77 / 255];
+    const WHITE_RGB = [1, 1, 1];
+    const SPACE = ' ';
+    const GLYPH_STYLE_REGULAR = 0;
+    const GLYPH_STYLE_BOLD = 1;
+    const GLYPH_STYLE_COUNT = 2;
+
+    function buildGlyphLookup() {
+      const glyphs = [];
+      const lookup = Object.create(null);
+      const addGlyph = (character) => {
+        if (Object.prototype.hasOwnProperty.call(lookup, character)) return;
+        lookup[character] = glyphs.length;
+        glyphs.push(character);
+      };
+
+      // The logo reveal morphs between character codes, so include printable ASCII even if a
+      // character is not present in the final source text.
+      for (let code = 32; code <= 126; code++) addGlyph(String.fromCharCode(code));
+      for (const line of swirlLines) {
+        for (let index = 0; index < line.length; index++) addGlyph(line[index]);
+      }
+      for (const logoLines of [desktopLogoLines, mobileLogoLines]) {
+        for (const line of logoLines) {
+          for (let index = 0; index < line.length; index++) addGlyph(line[index]);
+        }
+      }
+      addGlyph(SPACE);
+
+      return { glyphs, lookup };
+    }
+
+    const glyphSet = buildGlyphLookup();
+    const spaceGlyphIndex = glyphSet.lookup[SPACE];
+
+    function glyphIndexForCharacter(character) {
+      const glyphIndex = glyphSet.lookup[character];
+      return glyphIndex === undefined ? spaceGlyphIndex : glyphIndex;
+    }
+
+    function createSwirlLayout(cw, ch, atlasMetrics) {
+      const numRows = swirlLines.length;
+      const baseFontSize = floor(ch / numRows);
+      const fontSize = max(1, round(baseFontSize * 1.3));
+      const contentHeight = numRows * fontSize;
+      const verticalOffset = round((ch - contentHeight) / 2);
+      const charactersPerRow = floor(cw / atlasMetrics.charWidth);
+      const useMobile = charactersPerRow < desktopLogoLines[0].length + 8;
+      const logoLines = useMobile ? mobileLogoLines : desktopLogoLines;
+      const logoMask = useMobile ? mobileLogoMask : desktopLogoMask;
+      const logoXOffset = max(0, round((charactersPerRow - logoLines[0].length) / 2));
+      const logoYOffset = round((numRows - logoLines.length) / 2);
+      const maxGlyphCount = numRows * charactersPerRow + logoLines.length * logoLines[0].length;
+
+      return {
+        cw,
+        ch,
+        numRows,
+        fontSize,
+        verticalOffset,
+        charactersPerRow,
+        logoLines,
+        logoMask,
+        logoXOffset,
+        logoYOffset,
+        maxGlyphCount,
+        instanceBounds: new Float32Array(maxGlyphCount * 4),
+        instanceGlyphUvs: new Float32Array(maxGlyphCount * 4),
+        instanceColors: new Float32Array(maxGlyphCount * 4),
+      };
+    }
+
+    function pushGlyphInstance(layout, atlasMetrics, glyphStyle, glyphIndex, x, baseline, rgb, alpha, state) {
+      if (glyphIndex === spaceGlyphIndex || alpha <= 0) return;
+
+      const boundsOffset = state.count * 4;
+      const glyphUv = atlasMetrics.glyphUvs[glyphStyle * glyphSet.glyphs.length + glyphIndex];
+      layout.instanceBounds[boundsOffset] = x - atlasMetrics.padding;
+      layout.instanceBounds[boundsOffset + 1] = baseline - atlasMetrics.baseline;
+      layout.instanceBounds[boundsOffset + 2] = x - atlasMetrics.padding + atlasMetrics.glyphCellWidth;
+      layout.instanceBounds[boundsOffset + 3] = baseline - atlasMetrics.baseline + atlasMetrics.glyphCellHeight;
+      layout.instanceGlyphUvs[boundsOffset] = glyphUv[0];
+      layout.instanceGlyphUvs[boundsOffset + 1] = glyphUv[1];
+      layout.instanceGlyphUvs[boundsOffset + 2] = glyphUv[2];
+      layout.instanceGlyphUvs[boundsOffset + 3] = glyphUv[3];
+      layout.instanceColors[boundsOffset] = rgb[0];
+      layout.instanceColors[boundsOffset + 1] = rgb[1];
+      layout.instanceColors[boundsOffset + 2] = rgb[2];
+      layout.instanceColors[boundsOffset + 3] = alpha;
+      state.count++;
+    }
+
+    function buildSwirlGlyphInstances(layout, atlasMetrics, time) {
+      const timeSwirl_s = time * 0.001;
+      const timeLogo = easeOutQuad(clamp(0.0, time * 0.001 * 0.5, 1.0));
+      const lines = swirlLines;
+      const state = { count: 0 };
+
+      for (let row = 0; row < layout.numRows; row++) {
+        const y = 1 - (row * 2) / layout.numRows;
+        const baseline = layout.verticalOffset + row * layout.fontSize;
+        for (let col = 0; col < layout.charactersPerRow; col++) {
+          const x = (col * 2) / layout.charactersPerRow - 1;
+          const sq_dist_from_center = sqrt(x * x + y * y);
+          const theta = (timeSwirl_s * 0.1) / max(0.1, sq_dist_from_center);
+          const sine = sin(theta);
+          const cosine = cos(theta);
+          const rotated_x = x * cosine + y * sine;
+          const rotated_y = x * sine - y * cosine;
+          const grid_x = floor(((rotated_x + 1) / 2) * layout.charactersPerRow);
+          const grid_y = floor(((rotated_y + 1) / 2) * lines.length) % lines.length;
+          const out_of_bounds =
+            grid_x < 0 || grid_x >= layout.charactersPerRow || grid_y < 0 || grid_y >= layout.numRows;
+          let cur_character = out_of_bounds ? ' ' : (lines[grid_y][grid_x] ?? ' ');
+          let logo_character_to_draw = SPACE;
+
+          const inLogoArea =
+            row >= layout.logoYOffset &&
+            row < layout.logoYOffset + layout.logoLines.length &&
+            col >= layout.logoXOffset &&
+            col < layout.logoXOffset + layout.logoLines[0].length;
+          if (inLogoArea) {
+            const x_sample = col - layout.logoXOffset;
+            const y_sample = row - layout.logoYOffset;
+            const logo_character = layout.logoLines[y_sample][x_sample] ?? cur_character;
+            // Exclude the swirl across the masked silhouette: glyph cells morph into the logo
+            // letter, surrounding/interior halo cells morph toward space (blank) — both keep amber
+            // swirl chars out of the lettering.
+            const isLogoChar = layout.logoMask[y_sample][x_sample];
+
+            if (isLogoChar) {
+              const cur_char_code = cur_character.charCodeAt(0);
+              const logo_char_code = logo_character.charCodeAt(0);
+              cur_character = String.fromCharCode(round(mix(cur_char_code, logo_char_code, timeLogo)));
+              logo_character_to_draw = cur_character;
+            }
+          }
+
+          const cellX = col * atlasMetrics.charWidth;
+          pushGlyphInstance(
+            layout,
+            atlasMetrics,
+            GLYPH_STYLE_REGULAR,
+            glyphIndexForCharacter(cur_character),
+            cellX,
+            baseline,
+            AMBER_RGB,
+            1,
+            state,
+          );
+          pushGlyphInstance(
+            layout,
+            atlasMetrics,
+            GLYPH_STYLE_BOLD,
+            glyphIndexForCharacter(logo_character_to_draw),
+            cellX,
+            baseline,
+            WHITE_RGB,
+            timeLogo,
+            state,
+          );
+        }
+      }
+
+      return state.count;
+    }
+
+    const vsSource = `
+      attribute vec4 aVertexPosition;
+      attribute vec2 aTextureCoord;
+      varying vec2 vTextureCoord;
+      void main(void) {
+        gl_Position = aVertexPosition;
+        vTextureCoord = aTextureCoord;
+      }
+    `;
+
+    const fsSource = `
+      #ifdef GL_FRAGMENT_PRECISION_HIGH
+      precision highp float;
+      #else
+      precision mediump float;
+      #endif
+      varying vec2 vTextureCoord;
+      uniform sampler2D uSampler;
+      uniform float uTimeSeconds;
+      uniform vec2 uResolution;
+
+      float easeOutQuad(float t) { return t * (2.0 - t); }
+
+      void main() {
+        vec2 uv = vTextureCoord;
+
+        float curvatureDuration = 3.0;
+        float curvatureProgress = min(uTimeSeconds / curvatureDuration, 1.0);
+        float curvatureAmount = easeOutQuad(curvatureProgress);
+
+        vec2 curved_uv = uv * 2.0 - 1.0;
+        curved_uv *= 1.0 + (0.1 * curvatureAmount);
+        curved_uv *= 1.0 - (0.085 * curvatureAmount) + (0.05 * curvatureAmount) * pow(abs(curved_uv.yx), vec2(2.0));
+        curved_uv = (curved_uv * 0.5 + 0.5);
+
+        if (curved_uv.x < 0.0 || curved_uv.x > 1.0 || curved_uv.y < 0.0 || curved_uv.y > 1.0) {
+          gl_FragColor = vec4(0.0, 0.0, 0.0, 1.0);
+          return;
+        }
+
+        float decay = .005*exp(-uTimeSeconds / .75);
+        float r = texture2D(uSampler, vec2(curved_uv.x + decay, curved_uv.y)).r;
+        float g = texture2D(uSampler, curved_uv).g;
+        float b = texture2D(uSampler, vec2(curved_uv.x - decay, curved_uv.y)).b;
+
+        vec4 texColor = vec4(r, g, b, 1.0);
+
+        float scanline_speed = 0.0005;
+        float scanline = max(0.0, sin((curved_uv.y + uTimeSeconds * scanline_speed) * uResolution.y * 1.0)) * 0.5;
+        float scanline_opacity = 0.4;
+        texColor.rgb = mix(texColor.rgb, texColor.rgb - vec3(scanline), scanline_opacity);
+
+        float vignette = 1.0 - length(curved_uv - 0.5) * .7;
+        texColor.rgb *= vignette;
+
+        texColor.rgb *= 2.2;
+        texColor.rgb = 1.0 - exp(-texColor.rgb);
+
+        gl_FragColor = texColor;
+      }
+    `;
+
+    const textVsSource = `
+      attribute vec2 aCorner;
+      attribute vec4 aBounds;
+      attribute vec4 aGlyphUv;
+      attribute vec4 aColor;
+      uniform vec2 uTargetSize;
+      varying vec2 vGlyphUv;
+      varying vec4 vColor;
+
+      void main(void) {
+        vec2 pixelPosition = mix(aBounds.xy, aBounds.zw, aCorner);
+        vec2 clipPosition = vec2(
+          (pixelPosition.x / uTargetSize.x) * 2.0 - 1.0,
+          1.0 - (pixelPosition.y / uTargetSize.y) * 2.0
+        );
+        gl_Position = vec4(clipPosition, 0.0, 1.0);
+        vGlyphUv = mix(aGlyphUv.xy, aGlyphUv.zw, aCorner);
+        vColor = aColor;
+      }
+    `;
+
+    const textFsSource = `
+      precision mediump float;
+      varying vec2 vGlyphUv;
+      varying vec4 vColor;
+      uniform sampler2D uGlyphAtlas;
+
+      void main(void) {
+        float glyphAlpha = texture2D(uGlyphAtlas, vGlyphUv).a;
+        if (glyphAlpha <= 0.001) discard;
+        gl_FragColor = vec4(vColor.rgb, vColor.a * glyphAlpha);
+      }
+    `;
+
+    function createShader(gl, type, source) {
+      const shader = gl.createShader(type);
+      gl.shaderSource(shader, source);
+      gl.compileShader(shader);
+      if (!gl.getShaderParameter(shader, gl.COMPILE_STATUS)) {
+        console.error('Shader compile error: ' + gl.getShaderInfoLog(shader));
+        gl.deleteShader(shader);
+        return null;
+      }
+      return shader;
+    }
+
+    function createProgram(gl, vs, fs) {
+      const program = gl.createProgram();
+      gl.attachShader(program, vs);
+      gl.attachShader(program, fs);
+      gl.linkProgram(program);
+      if (!gl.getProgramParameter(program, gl.LINK_STATUS)) {
+        console.error('Program link error: ' + gl.getProgramInfoLog(program));
+        return null;
+      }
+      return program;
+    }
+
+    // Lets the video overlay pause the swirl while a clip is watched fullscreen, and resume it
+    // when the clip is closed or popped into Picture-in-Picture. Stays a no-op if WebGL is
+    // unavailable (initSwirl returns early before assigning these).
+    const swirlControl = { start() {}, stop() {} };
+
+    (function initSwirl() {
+      const canvas = document.getElementById('swirl');
+      const failSwirl = (message) => {
+        console.error(message);
+        canvas.style.display = 'none';
+      };
+
+      const gl = canvas.getContext('webgl2', { alpha: true, antialias: false, depth: false });
+      if (!gl) {
+        failSwirl('WebGL 2 not supported');
+        return;
+      }
+      gl.disable(gl.DEPTH_TEST);
+
+      const atlasCanvas = document.createElement('canvas');
+      const atlasCtx = atlasCanvas.getContext('2d');
+      if (!atlasCtx) {
+        failSwirl('Canvas 2D unavailable for glyph atlas');
+        return;
+      }
+
+      function configureTexture(texture) {
+        gl.bindTexture(gl.TEXTURE_2D, texture);
+        gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.CLAMP_TO_EDGE);
+        gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.CLAMP_TO_EDGE);
+        gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR);
+        gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.LINEAR);
+      }
+
+      const vs = createShader(gl, gl.VERTEX_SHADER, vsSource);
+      const fs = createShader(gl, gl.FRAGMENT_SHADER, fsSource);
+      const textVs = createShader(gl, gl.VERTEX_SHADER, textVsSource);
+      const textFs = createShader(gl, gl.FRAGMENT_SHADER, textFsSource);
+      if (!vs || !fs || !textVs || !textFs) {
+        failSwirl('Swirl shader compilation failed');
+        return;
+      }
+      const program = createProgram(gl, vs, fs);
+      const textProgram = createProgram(gl, textVs, textFs);
+      if (!program || !textProgram) {
+        failSwirl('Swirl program link failed');
+        return;
+      }
+
+      const programInfo = {
+        program,
+        attribLocations: {
+          vertexPosition: gl.getAttribLocation(program, 'aVertexPosition'),
+          textureCoord: gl.getAttribLocation(program, 'aTextureCoord'),
+        },
+        uniformLocations: {
+          uSampler: gl.getUniformLocation(program, 'uSampler'),
+          uTimeSeconds: gl.getUniformLocation(program, 'uTimeSeconds'),
+          uResolution: gl.getUniformLocation(program, 'uResolution'),
+        },
+      };
+      const textProgramInfo = {
+        program: textProgram,
+        attribLocations: {
+          corner: gl.getAttribLocation(textProgram, 'aCorner'),
+          bounds: gl.getAttribLocation(textProgram, 'aBounds'),
+          glyphUv: gl.getAttribLocation(textProgram, 'aGlyphUv'),
+          color: gl.getAttribLocation(textProgram, 'aColor'),
+        },
+        uniformLocations: {
+          targetSize: gl.getUniformLocation(textProgram, 'uTargetSize'),
+          glyphAtlas: gl.getUniformLocation(textProgram, 'uGlyphAtlas'),
+        },
+      };
+
+      const positionBuffer = gl.createBuffer();
+      const texCoordBuffer = gl.createBuffer();
+      const textCornerBuffer = gl.createBuffer();
+      const textBoundsBuffer = gl.createBuffer();
+      const textGlyphUvBuffer = gl.createBuffer();
+      const textColorBuffer = gl.createBuffer();
+      const glyphTexture = gl.createTexture();
+      const textTexture = gl.createTexture();
+      const textFramebuffer = gl.createFramebuffer();
+      if (
+        !positionBuffer ||
+        !texCoordBuffer ||
+        !textCornerBuffer ||
+        !textBoundsBuffer ||
+        !textGlyphUvBuffer ||
+        !textColorBuffer ||
+        !glyphTexture ||
+        !textTexture ||
+        !textFramebuffer
+      ) {
+        failSwirl('Swirl WebGL resource allocation failed');
+        return;
+      }
+
+      gl.bindBuffer(gl.ARRAY_BUFFER, positionBuffer);
+      gl.bufferData(gl.ARRAY_BUFFER, new Float32Array([-1, 1, 1, 1, -1, -1, 1, -1]), gl.STATIC_DRAW);
+
+      gl.bindBuffer(gl.ARRAY_BUFFER, texCoordBuffer);
+      gl.bufferData(gl.ARRAY_BUFFER, new Float32Array([0, 1, 1, 1, 0, 0, 1, 0]), gl.STATIC_DRAW);
+
+      gl.bindBuffer(gl.ARRAY_BUFFER, textCornerBuffer);
+      gl.bufferData(gl.ARRAY_BUFFER, new Float32Array([0, 0, 1, 0, 0, 1, 1, 1]), gl.STATIC_DRAW);
+
+      configureTexture(glyphTexture);
+      configureTexture(textTexture);
+
+      let layout = null;
+      let atlasMetrics = null;
+
+      function buildGlyphAtlas(fontSize) {
+        const font = `${fontSize}px monospace`;
+        atlasCtx.font = font;
+        atlasCtx.textBaseline = 'alphabetic';
+        atlasCtx.textAlign = 'left';
+
+        const charWidth = atlasCtx.measureText('M').width;
+        let maxAscent = 0;
+        let maxDescent = 0;
+        for (let style = 0; style < GLYPH_STYLE_COUNT; style++) {
+          atlasCtx.font = style === GLYPH_STYLE_BOLD ? `bold ${font}` : font;
+          for (const glyph of glyphSet.glyphs) {
+            const metrics = atlasCtx.measureText(glyph);
+            maxAscent = max(maxAscent, metrics.actualBoundingBoxAscent || fontSize * 0.8);
+            maxDescent = max(maxDescent, metrics.actualBoundingBoxDescent || fontSize * 0.25);
+          }
+        }
+
+        const padding = max(2, ceil(fontSize * 0.18));
+        const glyphCellWidth = max(1, ceil(charWidth + padding * 2));
+        const glyphCellHeight = max(1, ceil(maxAscent + maxDescent + padding * 2));
+        const baseline = padding + ceil(maxAscent);
+        const atlasGlyphCount = glyphSet.glyphs.length * GLYPH_STYLE_COUNT;
+        const atlasColumns = ceil(sqrt(atlasGlyphCount));
+        const atlasRows = ceil(atlasGlyphCount / atlasColumns);
+        const atlasWidth = atlasColumns * glyphCellWidth;
+        const atlasHeight = atlasRows * glyphCellHeight;
+
+        atlasCanvas.width = atlasWidth;
+        atlasCanvas.height = atlasHeight;
+        atlasCtx.clearRect(0, 0, atlasWidth, atlasHeight);
+        atlasCtx.fillStyle = '#ffffff';
+        atlasCtx.font = font;
+        atlasCtx.textBaseline = 'alphabetic';
+        atlasCtx.textAlign = 'left';
+
+        const glyphUvs = new Array(atlasGlyphCount);
+        for (let style = 0; style < GLYPH_STYLE_COUNT; style++) {
+          atlasCtx.font = style === GLYPH_STYLE_BOLD ? `bold ${font}` : font;
+          for (let index = 0; index < glyphSet.glyphs.length; index++) {
+            const atlasIndex = style * glyphSet.glyphs.length + index;
+            const column = atlasIndex % atlasColumns;
+            const row = floor(atlasIndex / atlasColumns);
+            const x = column * glyphCellWidth;
+            const y = row * glyphCellHeight;
+            atlasCtx.fillText(glyphSet.glyphs[index], x + padding, y + baseline);
+            glyphUvs[atlasIndex] = [
+              x / atlasWidth,
+              y / atlasHeight,
+              (x + glyphCellWidth) / atlasWidth,
+              (y + glyphCellHeight) / atlasHeight,
+            ];
+          }
+        }
+
+        gl.pixelStorei(gl.UNPACK_FLIP_Y_WEBGL, false);
+        gl.pixelStorei(gl.UNPACK_PREMULTIPLY_ALPHA_WEBGL, false);
+        gl.pixelStorei(gl.UNPACK_COLORSPACE_CONVERSION_WEBGL, gl.NONE);
+        gl.bindTexture(gl.TEXTURE_2D, glyphTexture);
+        gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, atlasCanvas);
+
+        return { charWidth, glyphCellWidth, glyphCellHeight, baseline, padding, glyphUvs };
+      }
+
+      function resizeSwirl(cw, ch) {
+        const numRows = swirlLines.length;
+        const fontSize = max(1, round(floor(ch / numRows) * 1.3));
+        atlasMetrics = buildGlyphAtlas(fontSize);
+        layout = createSwirlLayout(cw, ch, atlasMetrics);
+        allocateInstanceBuffer(textBoundsBuffer, layout.instanceBounds);
+        allocateInstanceBuffer(textGlyphUvBuffer, layout.instanceGlyphUvs);
+        allocateInstanceBuffer(textColorBuffer, layout.instanceColors);
+
+        canvas.width = cw;
+        canvas.height = ch;
+        gl.bindTexture(gl.TEXTURE_2D, textTexture);
+        gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, cw, ch, 0, gl.RGBA, gl.UNSIGNED_BYTE, null);
+        gl.bindFramebuffer(gl.FRAMEBUFFER, textFramebuffer);
+        gl.framebufferTexture2D(gl.FRAMEBUFFER, gl.COLOR_ATTACHMENT0, gl.TEXTURE_2D, textTexture, 0);
+
+        if (gl.checkFramebufferStatus(gl.FRAMEBUFFER) !== gl.FRAMEBUFFER_COMPLETE) {
+          failSwirl('Swirl text framebuffer incomplete');
+          return false;
+        }
+
+        gl.bindFramebuffer(gl.FRAMEBUFFER, null);
+        return true;
+      }
+
+      function allocateInstanceBuffer(buffer, data) {
+        gl.bindBuffer(gl.ARRAY_BUFFER, buffer);
+        gl.bufferData(gl.ARRAY_BUFFER, data.byteLength, gl.DYNAMIC_DRAW);
+      }
+
+      function uploadInstanceBuffer(buffer, data, itemSize, attribLocation) {
+        gl.bindBuffer(gl.ARRAY_BUFFER, buffer);
+        gl.bufferSubData(gl.ARRAY_BUFFER, 0, data);
+        gl.vertexAttribPointer(attribLocation, itemSize, gl.FLOAT, false, 0, 0);
+        gl.enableVertexAttribArray(attribLocation);
+        gl.vertexAttribDivisor(attribLocation, 1);
+      }
+
+      function renderTextTexture(instanceCount) {
+        gl.bindFramebuffer(gl.FRAMEBUFFER, textFramebuffer);
+        gl.viewport(0, 0, layout.cw, layout.ch);
+        gl.disable(gl.DEPTH_TEST);
+        gl.disable(gl.CULL_FACE);
+        gl.clearColor(0, 0, 0, 1);
+        gl.clear(gl.COLOR_BUFFER_BIT);
+        gl.enable(gl.BLEND);
+        gl.blendFunc(gl.SRC_ALPHA, gl.ONE_MINUS_SRC_ALPHA);
+
+        gl.useProgram(textProgramInfo.program);
+        gl.activeTexture(gl.TEXTURE0);
+        gl.bindTexture(gl.TEXTURE_2D, glyphTexture);
+        gl.uniform1i(textProgramInfo.uniformLocations.glyphAtlas, 0);
+        gl.uniform2f(textProgramInfo.uniformLocations.targetSize, layout.cw, layout.ch);
+
+        gl.bindBuffer(gl.ARRAY_BUFFER, textCornerBuffer);
+        gl.vertexAttribPointer(textProgramInfo.attribLocations.corner, 2, gl.FLOAT, false, 0, 0);
+        gl.enableVertexAttribArray(textProgramInfo.attribLocations.corner);
+        gl.vertexAttribDivisor(textProgramInfo.attribLocations.corner, 0);
+
+        uploadInstanceBuffer(
+          textBoundsBuffer,
+          layout.instanceBounds.subarray(0, instanceCount * 4),
+          4,
+          textProgramInfo.attribLocations.bounds,
+        );
+        uploadInstanceBuffer(
+          textGlyphUvBuffer,
+          layout.instanceGlyphUvs.subarray(0, instanceCount * 4),
+          4,
+          textProgramInfo.attribLocations.glyphUv,
+        );
+        uploadInstanceBuffer(
+          textColorBuffer,
+          layout.instanceColors.subarray(0, instanceCount * 4),
+          4,
+          textProgramInfo.attribLocations.color,
+        );
+
+        gl.drawArraysInstanced(gl.TRIANGLE_STRIP, 0, 4, instanceCount);
+        gl.vertexAttribDivisor(textProgramInfo.attribLocations.bounds, 0);
+        gl.vertexAttribDivisor(textProgramInfo.attribLocations.glyphUv, 0);
+        gl.vertexAttribDivisor(textProgramInfo.attribLocations.color, 0);
+      }
+
+      function renderFinalPass(elapsed, cw, ch) {
+        gl.bindFramebuffer(gl.FRAMEBUFFER, null);
+        gl.viewport(0, 0, cw, ch);
+        gl.disable(gl.BLEND);
+        gl.clearColor(0, 0, 0, 0);
+        gl.clear(gl.COLOR_BUFFER_BIT);
+
+        gl.useProgram(programInfo.program);
+        gl.activeTexture(gl.TEXTURE0);
+        gl.bindTexture(gl.TEXTURE_2D, textTexture);
+
+        gl.bindBuffer(gl.ARRAY_BUFFER, positionBuffer);
+        gl.vertexAttribPointer(programInfo.attribLocations.vertexPosition, 2, gl.FLOAT, false, 0, 0);
+        gl.enableVertexAttribArray(programInfo.attribLocations.vertexPosition);
+
+        gl.bindBuffer(gl.ARRAY_BUFFER, texCoordBuffer);
+        gl.vertexAttribPointer(programInfo.attribLocations.textureCoord, 2, gl.FLOAT, false, 0, 0);
+        gl.enableVertexAttribArray(programInfo.attribLocations.textureCoord);
+
+        gl.uniform1i(programInfo.uniformLocations.uSampler, 0);
+        gl.uniform1f(programInfo.uniformLocations.uTimeSeconds, elapsed * 0.001);
+        gl.uniform2f(programInfo.uniformLocations.uResolution, cw, ch);
+
+        gl.drawArrays(gl.TRIANGLE_STRIP, 0, 4);
+      }
+
+      let startTime = 0;
+      // Device-pixel size the WebGL targets are currently allocated at; -1 forces the first resize.
+      let lastCw = -1;
+      let lastCh = -1;
+      // The loop is started/stopped on demand so the video overlay can pause it. rafId holds the
+      // pending frame; `running` gates the self-reschedule so an in-flight frame can't restart a
+      // loop that was just stopped.
+      let rafId = null;
+      let running = false;
+
+      function animate(time) {
+        const rect = canvas.getBoundingClientRect();
+        const w = rect.width;
+        const h = rect.height;
+        const dpr = window.devicePixelRatio || 1;
+        const cw = round(w * dpr);
+        const ch = round(h * dpr);
+
+        if (cw !== lastCw || ch !== lastCh) {
+          if (!resizeSwirl(cw, ch)) {
+            running = false;
+            return;
+          }
+          lastCw = cw;
+          lastCh = ch;
+        }
+
+        if (startTime === 0) startTime = time;
+        const elapsed = time - startTime;
+        const instanceCount = buildSwirlGlyphInstances(layout, atlasMetrics, elapsed);
+
+        renderTextTexture(instanceCount);
+        renderFinalPass(elapsed, cw, ch);
+
+        if (running) rafId = requestAnimationFrame(animate);
+      }
+
+      function startSwirl() {
+        if (running) return;
+        running = true;
+        rafId = requestAnimationFrame(animate);
+      }
+      function stopSwirl() {
+        running = false;
+        if (rafId != null) {
+          cancelAnimationFrame(rafId);
+          rafId = null;
+        }
+      }
+
+      swirlControl.start = startSwirl;
+      swirlControl.stop = stopSwirl;
+      startSwirl();
+    })();
+  </script>
+</body>
+
+</html>
