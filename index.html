@@ -721,20 +721,21 @@
         return `${' '.repeat(leftPadding)}${line}`.padEnd(width, ' ');
       });
     }
-const desktopLogoLines = normalizeLogoLines([
-  "__   _____ ___ _  _ _  _ _   _ ",
-  "\\ \\ / /_ _/ __| || | \\| | | | |",
-  " \\ V / | |\\__ \\ __ | .` | |_| |",
-  "  \\_/ |___|___/_||_|_|\\_|\\___/ ",
-  "                               ",
+const desktopLogoLines = centerLogoLines([
+  " ____  ___ ____ ___ _____  _  ",
+  "|  _ \\|_ _/ ___|_ _|_   _| | ",
+  "| | | || | |  _ | |  | | | | ",
+  "| |_| || | |_| || |  | | |_| ",
+  "|____/|___\\____|___| |_| (_) ",
 ]);
 
-// Same logo for mobile (already short enough).
+// Same concept for mobile; centered to keep the visual weight balanced.
 const mobileLogoLines = centerLogoLines([
-  "__   _____ ___ _  _ _  _ _   _ ",
-  "\\ \\ / /_ _/ __| || | \\| | | | |",
-  " \\ V / | |\\__ \\ __ | .` | |_| |",
-  "  \\_/ |___|___/_||_|_|\\_|\\___/ ",
+  " ____  ___ ____ ___ _____  _  ",
+  "|  _ \\|_ _/ ___|_ _|_   _| | ",
+  "| | | || | |  _ | |  | | | | ",
+  "| |_| || | |_| || |  | | |_| ",
+  "|____/|___\\____|___| |_| (_) ",
 ]);
 
     // The swirl exclusion zone keeps amber swirl chars out of the lettering. The original ±1
