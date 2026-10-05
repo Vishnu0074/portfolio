@@ -1,69 +1,45 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
-  <title>Vishnu - Flutter Developer</title>
-  <meta name="description" content="Vishnu - Flutter Developer" />
-  <meta name="theme-color" content="#000000" />
+  <title>Vishnu Sajan — Flutter Developer</title>
+  <meta name="description" content="Vishnu Sajan — Flutter developer building polished mobile products, developer tools and digital experiences." />
+  <meta name="theme-color" content="#050505" />
   <style>
     :root {
-      --font-sans: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
-      --font-mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, 'Liberation Mono', 'Courier New', monospace;
-
-      --gold: #ffffff;
-      --gold-bright: #ffffff;
-      --gold-deep: #ffffff;
-      --gold-faint: #ffffff;
-      --amber-text: #ffffff;
-      --amber-dim: #ffffff;
-      --white: #ffffff;
-      --black: #000000;
+      --bg: #050505;
+      --text: #f5f5f2;
+      --muted: rgba(245,245,242,.62);
+      --dim: rgba(245,245,242,.38);
+      --line: rgba(245,245,242,.14);
+      --accent: #f0c96a;
+      --max: 1240px;
+      --sans: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      --mono: "SFMono-Regular", Consolas, "Liberation Mono", monospace;
     }
 
-    * {
-      box-sizing: border-box;
-    }
-
-    html,
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
     body {
       margin: 0;
-      padding: 0;
-      min-height: 100%;
-      background: linear-gradient(180deg, #000000 0%, #111111 40%, #000000 100%);
-      color: #ffffff;
-      font-family: var(--font-mono);
+      background: var(--bg);
+      color: var(--text);
+      font-family: var(--sans);
       -webkit-font-smoothing: antialiased;
-      text-rendering: optimizeLegibility;
-      scroll-behavior: smooth;
       overflow-x: hidden;
     }
-
-    ::selection {
-      background: rgba(248, 212, 136, 0.25);
-      color: #fff;
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      z-index: 0;
+      pointer-events: none;
+      background: radial-gradient(circle at 50% 30%, rgba(240,201,106,.035), transparent 42%);
     }
+    a { color: inherit; }
+    ::selection { background: rgba(240,201,106,.24); color: #fff; }
 
-    .page {
-      background: var(--black);
-    }
-
-    /* Accessible/SEO heading that must not disturb the canvas hero. */
-    .visually-hidden {
-      position: absolute;
-      width: 1px;
-      height: 1px;
-      margin: -1px;
-      padding: 0;
-      overflow: hidden;
-      clip: rect(0 0 0 0);
-      clip-path: inset(50%);
-      white-space: nowrap;
-      border: 0;
-    }
-
-    /* ---------- SWIRL ---------- */
     #swirl {
       position: fixed;
       inset: 0;
@@ -73,392 +49,590 @@
       z-index: 0;
     }
 
-    .page-content {
+    .site {
       position: relative;
       z-index: 1;
-      min-height: 100vh;
-      display: flex;
-      flex-direction: column;
-      gap: 2rem;
-      padding: 10rem 1.75rem 4rem;
-      max-width: 1200px;
+    }
+    .shell {
+      width: min(var(--max), calc(100% - 48px));
       margin: 0 auto;
     }
 
-    .topbar {
+    .nav {
       position: fixed;
       top: 0;
       left: 0;
       right: 0;
+      z-index: 10;
+      height: 76px;
+      display: flex;
+      align-items: center;
+      border-bottom: 1px solid transparent;
+      transition: background .35s ease, border-color .35s ease, backdrop-filter .35s ease;
+    }
+    .nav.scrolled {
+      background: rgba(5,5,5,.58);
+      border-color: var(--line);
+      backdrop-filter: blur(14px);
+    }
+    .nav-inner {
       display: flex;
       align-items: center;
       justify-content: space-between;
-      gap: 1rem;
-      width: min(1200px, 100%);
-      margin: 0 auto;
-      padding: 0.95rem 1.75rem;
-      background: rgba(5, 5, 5, 0.78);
-      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-      backdrop-filter: blur(24px);
-      z-index: 3;
+      width: min(var(--max), calc(100% - 48px));
+      margin: auto;
     }
-
-    .brand {
-      font-size: 0.9rem;
-      font-weight: 700;
-      letter-spacing: 0.25em;
-      text-transform: uppercase;
+    .wordmark {
+      text-decoration: none;
+      font-weight: 750;
+      letter-spacing: -.04em;
+      font-size: 1.05rem;
     }
-
+    .wordmark span { color: var(--accent); }
     .nav-links {
       display: flex;
-      flex-wrap: wrap;
-      gap: 1.25rem;
-      font-size: 0.95rem;
+      align-items: center;
+      gap: 28px;
+      font: 12px var(--mono);
+      text-transform: uppercase;
+      letter-spacing: .12em;
     }
-
     .nav-links a {
-      color: #ffffff;
       text-decoration: none;
-      opacity: 0.8;
-      transition: opacity 180ms ease;
+      color: var(--muted);
+      transition: color .2s ease;
     }
-
-    .nav-links a:hover {
-      opacity: 1;
-    }
+    .nav-links a:hover { color: var(--text); }
 
     .hero {
+      min-height: 100svh;
+      display: flex;
+      align-items: flex-end;
+      padding: 150px 0 76px;
+    }
+    .hero-grid {
+      width: 100%;
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) 270px;
+      gap: 60px;
+      align-items: end;
+    }
+    .kicker {
       display: flex;
       align-items: center;
-      justify-content: center;
-      min-height: calc(100vh - 120px);
-      padding-top: 1rem;
-      text-align: center;
-    }
-
-    .hero-copy {
-      max-width: 700px;
-      margin: 0 auto;
-      padding: 2.25rem 1.8rem;
-      border-radius: 28px;
-      background: rgba(255, 255, 255, 0.08);
-      border: 1px solid rgba(255, 255, 255, 0.12);
-      backdrop-filter: blur(22px);
-      box-shadow: 0 35px 90px rgba(0, 0, 0, 0.22);
-    }
-
-    .eyebrow {
-      font-size: 0.75rem;
-      letter-spacing: 0.42em;
+      gap: 12px;
+      margin-bottom: 24px;
+      font: 11px var(--mono);
+      color: var(--accent);
+      letter-spacing: .18em;
       text-transform: uppercase;
-      color: rgba(255, 255, 255, 0.68);
-      margin-bottom: 0.9rem;
     }
-
-    .hero-title {
-      font-size: clamp(2rem, 4vw, 3rem);
-      line-height: 1.05;
+    .kicker::before {
+      content: "";
+      width: 34px;
+      height: 1px;
+      background: var(--accent);
+    }
+    .hero h1 {
+      max-width: 950px;
       margin: 0;
-      letter-spacing: -0.03em;
+      font-size: clamp(4.2rem, 10.5vw, 10rem);
+      line-height: .84;
+      letter-spacing: -.075em;
+      font-weight: 720;
     }
-
-    .hero-copy p {
-      font-size: 0.95rem;
-      line-height: 1.75;
-      max-width: 34rem;
-      margin: 1.35rem auto 0;
-      color: rgba(255, 255, 255, 0.86);
+    .hero h1 em {
+      font-style: normal;
+      color: var(--accent);
     }
-
-    .hero-actions {
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: center;
-      gap: 0.75rem;
-      margin-top: 1.5rem;
+    .hero-side {
+      padding-bottom: 8px;
+      border-left: 1px solid var(--line);
+      padding-left: 24px;
     }
-
-    .hero-actions a {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      min-width: 140px;
-      padding: 0.85rem 1.3rem;
-      border-radius: 999px;
-      border: 1px solid rgba(255, 255, 255, 0.14);
-      color: #ffffff;
-      text-decoration: none;
-      background: rgba(255, 255, 255, 0.06);
-      font-size: 0.92rem;
-      letter-spacing: 0.01em;
-      transition: background 200ms ease, transform 200ms ease, border-color 200ms ease;
+    .hero-side p {
+      margin: 0;
+      color: var(--muted);
+      line-height: 1.7;
+      font-size: 14px;
     }
-
-    .hero-actions a:hover {
-      background: rgba(255, 255, 255, 0.16);
-      transform: translateY(-1px);
-      border-color: rgba(255, 255, 255, 0.28);
+    .scroll-cue {
+      margin-top: 34px;
+      color: var(--dim);
+      font: 10px var(--mono);
+      letter-spacing: .16em;
+      text-transform: uppercase;
     }
 
     .section {
-      max-width: 1200px;
-      width: 100%;
-      margin: 0 auto;
-      display: grid;
-      gap: 1.5rem;
+      padding: 150px 0;
+      border-top: 1px solid var(--line);
     }
-
-    .section-heading {
-      font-size: 0.95rem;
-      letter-spacing: 0.35em;
+    .section-label {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      margin-bottom: 58px;
+      font: 11px var(--mono);
+      color: var(--muted);
       text-transform: uppercase;
-      margin-bottom: 1rem;
-      color: rgba(255, 255, 255, 0.7);
+      letter-spacing: .16em;
     }
+    .section-label span:last-child { color: var(--dim); }
 
-    .glass-card {
-      background: rgba(255, 255, 255, 0.08);
-      border: 1px solid rgba(255, 255, 255, 0.14);
-      border-radius: 28px;
-      backdrop-filter: blur(24px);
-      box-shadow: 0 30px 80px rgba(0, 0, 0, 0.22);
-      padding: 2rem;
+    .intro {
+      display: grid;
+      grid-template-columns: 1fr 1.35fr;
+      gap: 80px;
     }
-
-    .glass-card h2 {
-      margin: 0 0 1rem;
-      font-size: clamp(2rem, 4vw, 3rem);
-      line-height: 1.05;
-    }
-
-    .glass-card p {
+    .intro h2 {
       margin: 0;
-      color: rgba(255, 255, 255, 0.86);
-      line-height: 1.85;
+      font-size: clamp(2.5rem, 5.2vw, 5.6rem);
+      line-height: .94;
+      letter-spacing: -.065em;
+      font-weight: 650;
+    }
+    .intro h2 span { color: var(--accent); }
+    .intro-copy {
+      max-width: 600px;
+      padding-top: 8px;
+    }
+    .intro-copy p {
+      margin: 0 0 28px;
+      color: var(--muted);
+      font-size: clamp(1.05rem, 1.6vw, 1.35rem);
+      line-height: 1.65;
+    }
+    .facts {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 9px 24px;
+      font: 11px var(--mono);
+      color: var(--dim);
+      text-transform: uppercase;
+      letter-spacing: .1em;
+    }
+    .facts span::before { content: "↳ "; color: var(--accent); }
+
+    .work-intro {
+      max-width: 850px;
+      margin-bottom: 80px;
+    }
+    .work-intro h2 {
+      margin: 0;
+      font-size: clamp(3rem, 7vw, 7.5rem);
+      line-height: .86;
+      letter-spacing: -.07em;
+      font-weight: 650;
+    }
+    .work-intro p {
+      max-width: 560px;
+      margin: 30px 0 0;
+      color: var(--muted);
+      line-height: 1.7;
     }
 
-    .work-grid {
-      grid-template-columns: repeat(2, minmax(0, 1fr));
+    .project {
+      display: grid;
+      grid-template-columns: 82px minmax(0, 1fr) 250px;
+      gap: 30px;
+      padding: 42px 0;
+      border-top: 1px solid var(--line);
+      text-decoration: none;
+      transition: padding .35s ease;
     }
-
-    .project-card {
+    .project:last-child { border-bottom: 1px solid var(--line); }
+    .project:hover { padding-left: 18px; padding-right: 18px; }
+    .project-num {
+      color: var(--dim);
+      font: 11px var(--mono);
+      padding-top: 9px;
+    }
+    .project-main h3 {
+      margin: 0 0 12px;
+      font-size: clamp(2rem, 4vw, 4rem);
+      letter-spacing: -.055em;
+      line-height: .95;
+      font-weight: 620;
+    }
+    .project-main p {
+      max-width: 680px;
+      margin: 0;
+      color: var(--muted);
+      line-height: 1.65;
+    }
+    .project-meta {
       display: flex;
       flex-direction: column;
-      justify-content: space-between;
-      gap: 1.2rem;
+      align-items: flex-end;
+      gap: 10px;
+      padding-top: 9px;
+      font: 10px var(--mono);
+      color: var(--dim);
+      text-transform: uppercase;
+      letter-spacing: .1em;
+      text-align: right;
     }
+    .project-meta strong { color: var(--accent); font-weight: 500; }
 
-    .project-card h3 {
+    .story {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 100px;
+    }
+    .story-block h3 {
+      margin: 0 0 24px;
+      font-size: clamp(2rem, 3.8vw, 4rem);
+      line-height: .95;
+      letter-spacing: -.055em;
+    }
+    .story-block p {
       margin: 0;
-      font-size: 1.5rem;
+      max-width: 530px;
+      color: var(--muted);
+      line-height: 1.75;
     }
-
-    .project-card p {
-      margin: 0;
-      color: rgba(255, 255, 255, 0.8);
+    .timeline { margin-top: 8px; }
+    .timeline-item {
+      display: grid;
+      grid-template-columns: 110px 1fr;
+      gap: 24px;
+      padding: 22px 0;
+      border-top: 1px solid var(--line);
     }
+    .timeline-item:last-child { border-bottom: 1px solid var(--line); }
+    .timeline-year { font: 10px var(--mono); color: var(--accent); padding-top: 4px; }
+    .timeline-item h4 { margin: 0 0 7px; font-size: 1rem; font-weight: 600; }
+    .timeline-item p { font-size: .9rem; line-height: 1.55; color: var(--muted); }
 
-    .project-card a {
-      color: #ffffff;
-      text-decoration: none;
+    .stack {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      border-top: 1px solid var(--line);
+      border-left: 1px solid var(--line);
+    }
+    .stack-item {
+      min-height: 150px;
+      padding: 24px;
+      border-right: 1px solid var(--line);
+      border-bottom: 1px solid var(--line);
+      transition: background .3s ease;
+    }
+    .stack-item:hover { background: rgba(255,255,255,.035); }
+    .stack-item small {
+      display: block;
+      margin-bottom: 38px;
+      color: var(--dim);
+      font: 10px var(--mono);
+    }
+    .stack-item strong {
+      font-size: 1.1rem;
       font-weight: 600;
-      display: inline-flex;
-      gap: 0.5rem;
+      letter-spacing: -.02em;
+    }
+
+    .principles {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 50px;
+    }
+    .principle {
+      border-top: 2px solid var(--text);
+      padding-top: 20px;
+    }
+    .principle span { color: var(--accent); font: 10px var(--mono); }
+    .principle h3 {
+      margin: 24px 0 12px;
+      font-size: 1.45rem;
+      letter-spacing: -.035em;
+    }
+    .principle p { margin: 0; color: var(--muted); line-height: 1.7; font-size: .92rem; }
+
+    .contact {
+      min-height: 80svh;
+      display: flex;
       align-items: center;
     }
-
-    .skill-list {
+    .contact h2 {
+      max-width: 1050px;
+      margin: 0;
+      font-size: clamp(4rem, 10vw, 10rem);
+      line-height: .82;
+      letter-spacing: -.08em;
+      font-weight: 680;
+    }
+    .contact h2 em { font-style: normal; color: var(--accent); }
+    .contact-row {
+      margin-top: 54px;
       display: flex;
-      flex-wrap: wrap;
-      gap: 0.75rem;
-      margin-top: 1.5rem;
+      justify-content: space-between;
+      align-items: flex-end;
+      gap: 30px;
     }
-
-    .skill-chip {
-      padding: 0.85rem 1.2rem;
-      border-radius: 999px;
-      background: rgba(255, 255, 255, 0.08);
-      border: 1px solid rgba(255, 255, 255, 0.12);
-      color: #ffffff;
-      font-size: 0.95rem;
-    }
-
-    .footer {
-      max-width: 900px;
-      margin: 0 auto;
-    }
-
-    .footer-actions {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 1rem;
-      margin-top: 1.75rem;
-    }
-
-    .footer-actions a {
-      color: #ffffff;
+    .contact-email {
+      font-size: clamp(1.3rem, 2.8vw, 2.5rem);
+      letter-spacing: -.04em;
       text-decoration: none;
-      border-bottom: 1px solid rgba(255, 255, 255, 0.18);
-      padding-bottom: 2px;
+      border-bottom: 1px solid var(--text);
+      padding-bottom: 5px;
     }
-
-    .social-icons {
+    .contact-links {
       display: flex;
-      flex-wrap: wrap;
-      gap: 1rem;
-      margin-top: 2rem;
+      gap: 20px;
+      font: 10px var(--mono);
+      text-transform: uppercase;
+      letter-spacing: .12em;
+    }
+    .contact-links a { text-decoration: none; color: var(--muted); }
+    .contact-links a:hover { color: var(--text); }
+
+    footer {
+      padding: 28px 0 36px;
+      border-top: 1px solid var(--line);
+      color: var(--dim);
+      font: 10px var(--mono);
+      display: flex;
+      justify-content: space-between;
+      text-transform: uppercase;
+      letter-spacing: .12em;
     }
 
-    .social-icon {
-      width: 2.5rem;
-      height: 2.5rem;
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      border-radius: 999px;
-      background: rgba(255, 255, 255, 0.08);
-      border: 1px solid rgba(255, 255, 255, 0.14);
-      color: #ffffff;
-      transition: transform 180ms ease, background 180ms ease;
+    [data-reveal] {
+      opacity: 0;
+      transform: translateY(42px);
+      transition: opacity .9s cubic-bezier(.2,.65,.2,1), transform .9s cubic-bezier(.2,.65,.2,1);
+      transition-delay: var(--delay, 0ms);
     }
+    [data-reveal].is-visible { opacity: 1; transform: none; }
+    [data-reveal="line"] { transform: translateX(-40px); }
+    [data-reveal="scale"] { transform: scale(.94); }
+    .word-reveal { overflow: hidden; display: inline-block; }
+    .word-reveal > span { display: inline-block; transform: translateY(105%); transition: transform 1s cubic-bezier(.2,.8,.2,1); }
+    .word-reveal.is-visible > span { transform: translateY(0); }
 
-    .social-icon:hover {
-      background: rgba(255, 255, 255, 0.18);
-      transform: translateY(-2px);
+    @media (max-width: 850px) {
+      .shell, .nav-inner { width: min(100% - 32px, var(--max)); }
+      .nav { height: 66px; }
+      .nav-links { gap: 14px; font-size: 9px; }
+      .hero { padding-top: 120px; }
+      .hero-grid, .intro, .story { grid-template-columns: 1fr; gap: 44px; }
+      .hero-side { max-width: 430px; }
+      .project { grid-template-columns: 45px 1fr; gap: 14px; }
+      .project-meta { grid-column: 2; align-items: flex-start; text-align: left; flex-direction: row; flex-wrap: wrap; }
+      .stack { grid-template-columns: repeat(2, 1fr); }
+      .principles { grid-template-columns: 1fr; gap: 36px; }
+      .section { padding: 105px 0; }
+      .contact { min-height: 70svh; }
+      .contact-row { flex-direction: column; align-items: flex-start; }
     }
-
-    @media (max-width: 900px) {
-      .hero {
-        min-height: auto;
-      }
-
-      .work-grid {
-        grid-template-columns: 1fr;
-      }
-
-      .topbar {
-        flex-direction: column;
-        align-items: flex-start;
-        padding: 0.95rem 1.5rem;
-      }
-
-      .hero-copy {
-        padding: 2rem 1.4rem;
-      }
+    @media (max-width: 520px) {
+      .nav-links a:nth-child(n+3) { display: none; }
+      .hero h1 { font-size: clamp(3.6rem, 18vw, 6rem); }
+      .section-label { margin-bottom: 38px; }
+      .stack { grid-template-columns: 1fr 1fr; }
+      .stack-item { min-height: 125px; padding: 17px; }
+      .stack-item small { margin-bottom: 25px; }
+      footer { gap: 18px; flex-direction: column; }
     }
-
-    @media (max-width: 640px) {
-      .page-content {
-        padding: 9.5rem 1rem 3rem;
-      }
-
-      .hero-title {
-        font-size: clamp(1.8rem, 8vw, 2.6rem);
-      }
-
-      .hero-copy p {
-        max-width: 100%;
-      }
-
-      .nav-links {
-        gap: 0.75rem;
-      }
+    @media (prefers-reduced-motion: reduce) {
+      html { scroll-behavior: auto; }
+      *, *::before, *::after { animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; }
+      [data-reveal], .word-reveal > span { opacity: 1; transform: none; }
     }
   </style>
 </head>
-
-<body class="page">
+<body>
   <canvas id="swirl"></canvas>
-  <div class="page-content">
-    <header class="topbar">
-      <div class="brand">Vishnu S</div>
-      <nav class="nav-links" aria-label="Main site navigation">
-        <a href="#about">About</a>
-        <a href="#work">Work</a>
-        <a href="#skills">Skills</a>
-        <a href="#contact">Contact</a>
-      </nav>
+
+  <div class="site">
+    <header class="nav" id="nav">
+      <div class="nav-inner">
+        <a class="wordmark" href="#">VISHNU<span>.</span></a>
+        <nav class="nav-links" aria-label="Main navigation">
+          <a href="#about">About</a>
+          <a href="#work">Work</a>
+          <a href="#stack">Stack</a>
+          <a href="#contact">Contact</a>
+        </nav>
+      </div>
     </header>
 
-    <main class="hero">
-      <div class="hero-copy">
-        <div class="eyebrow">Flutter Developer</div>
-        <h1 class="hero-title">Crafting polished cross-platform experiences in Dart.</h1>
-        <p>Designing minimal, responsive mobile apps with clean architecture, refined animations, and thoughtful user interfaces.</p>
-        <div class="hero-actions">
-          <a href="#work">View Projects</a>
-          <a href="#contact">Say Hello</a>
+    <main>
+      <section class="hero shell">
+        <div class="hero-grid">
+          <div>
+            <div class="kicker" data-reveal>Flutter / Product / Mobile</div>
+            <h1 data-reveal="scale">I build digital products that feel <em>alive.</em></h1>
+          </div>
+          <aside class="hero-side" data-reveal style="--delay:180ms">
+            <p>Vishnu Sajan — Flutter developer focused on thoughtful interfaces, reliable architecture and the small details that make software feel finished.</p>
+            <div class="scroll-cue">↓ Scroll to explore</div>
+          </aside>
         </div>
-      </div>
+      </section>
+
+      <section class="section" id="about">
+        <div class="shell">
+          <div class="section-label" data-reveal><span>01 — About</span><span>Builder / Developer</span></div>
+          <div class="intro">
+            <h2 data-reveal>I care about the <span>experience</span>, not just the feature.</h2>
+            <div class="intro-copy" data-reveal style="--delay:140ms">
+              <p>I work mainly with Flutter and Dart, turning product ideas into fast, polished experiences across iOS and Android. My work sits between engineering, interface design and the messy reality of shipping.</p>
+              <p>From offline-first workflows to deep links, push notifications and production releases, I like owning the details all the way through.</p>
+              <div class="facts"><span>Kerala, India</span><span>Flutter / Dart</span><span>Mobile first</span><span>Open to interesting work</span></div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="section" id="work">
+        <div class="shell">
+          <div class="section-label" data-reveal><span>02 — Selected work</span><span>Things I've actually built</span></div>
+          <div class="work-intro" data-reveal>
+            <h2>From rescue apps<br>to music players.</h2>
+            <p>A selection of product work, experiments and developer tooling. Each one solved a different kind of problem.</p>
+          </div>
+
+          <div class="projects">
+            <a class="project" href="https://github.com/Vishnu0074" target="_blank" rel="noopener noreferrer" data-reveal="line">
+              <div class="project-num">01</div>
+              <div class="project-main">
+                <h3>Serpent / Sarpa</h3>
+                <p>A snake-rescue reporting platform with multilingual UI, offline workflows, role-based access, push notifications, deep linking and production iOS / Android delivery.</p>
+              </div>
+              <div class="project-meta"><strong>Flutter</strong><span>Mobile product</span><span>Production</span></div>
+            </a>
+
+            <a class="project" href="https://github.com/Vishnu0074" target="_blank" rel="noopener noreferrer" data-reveal="line" style="--delay:100ms">
+              <div class="project-num">02</div>
+              <div class="project-main">
+                <h3>Jack Fruit Collection</h3>
+                <p>A field-focused collection app built around farmers, approvals, plant and fruit availability, profile workflows and clean offline-friendly mobile interactions.</p>
+              </div>
+              <div class="project-meta"><strong>Flutter + BLoC</strong><span>Clean architecture</span><span>iOS / Android</span></div>
+            </a>
+
+            <a class="project" href="https://github.com/Vishnu0074" target="_blank" rel="noopener noreferrer" data-reveal="line" style="--delay:200ms">
+              <div class="project-num">03</div>
+              <div class="project-main">
+                <h3>Loopin</h3>
+                <p>A minimal dark music experience exploring search, artwork, streaming controls and a focused listening interface powered by a lightweight music API layer.</p>
+              </div>
+              <div class="project-meta"><strong>Dart</strong><span>Audio</span><span>Dark UI</span></div>
+            </a>
+
+            <a class="project" href="https://pub.dev" target="_blank" rel="noopener noreferrer" data-reveal="line" style="--delay:300ms">
+              <div class="project-num">04</div>
+              <div class="project-main">
+                <h3>Flutter Performance Manager</h3>
+                <p>Developer tooling for observing frames, memory, network activity and rebuilds, with a CLI and WebSocket-powered inspection workflow.</p>
+              </div>
+              <div class="project-meta"><strong>Flutter tooling</strong><span>WebSocket</span><span>Open source</span></div>
+            </a>
+          </div>
+        </div>
+      </section>
+
+      <section class="section">
+        <div class="shell">
+          <div class="section-label" data-reveal><span>03 — How I work</span><span>Build / ship / refine</span></div>
+          <div class="story">
+            <div class="story-block" data-reveal>
+              <h3>Good software is a series of deliberate decisions.</h3>
+              <p>I start with the user journey, then work backwards into architecture. I prefer simple systems that are easy to reason about, expressive interfaces, and motion that communicates rather than distracts.</p>
+            </div>
+            <div class="timeline" data-reveal style="--delay:150ms">
+              <div class="timeline-item"><div class="timeline-year">01 / DISCOVER</div><div><h4>Understand the real problem</h4><p>Flows, edge cases, roles, API boundaries and what actually needs to happen on a phone.</p></div></div>
+              <div class="timeline-item"><div class="timeline-year">02 / BUILD</div><div><h4>Structure before polish</h4><p>Clean architecture, state management and reusable UI foundations before the screen-by-screen finish.</p></div></div>
+              <div class="timeline-item"><div class="timeline-year">03 / REFINE</div><div><h4>Make it feel finished</h4><p>Motion, loading states, empty states, error recovery and the details people notice without naming them.</p></div></div>
+              <div class="timeline-item"><div class="timeline-year">04 / SHIP</div><div><h4>Production is part of the product</h4><p>Testing, store builds, release configuration, notifications, links and the boring things that make launch possible.</p></div></div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="section" id="stack">
+        <div class="shell">
+          <div class="section-label" data-reveal><span>04 — Toolkit</span><span>Technologies I reach for</span></div>
+          <div class="stack" data-reveal="scale">
+            <div class="stack-item"><small>01</small><strong>Flutter / Dart</strong></div>
+            <div class="stack-item"><small>02</small><strong>BLoC / Clean Architecture</strong></div>
+            <div class="stack-item"><small>03</small><strong>Firebase / FCM</strong></div>
+            <div class="stack-item"><small>04</small><strong>REST APIs</strong></div>
+            <div class="stack-item"><small>05</small><strong>Django</strong></div>
+            <div class="stack-item"><small>06</small><strong>JavaScript / WebGL</strong></div>
+            <div class="stack-item"><small>07</small><strong>Git / GitHub</strong></div>
+            <div class="stack-item"><small>08</small><strong>iOS / Android</strong></div>
+          </div>
+        </div>
+      </section>
+
+      <section class="section">
+        <div class="shell">
+          <div class="section-label" data-reveal><span>05 — Principles</span><span>What I optimize for</span></div>
+          <div class="principles">
+            <article class="principle" data-reveal><span>01</span><h3>Clarity over cleverness</h3><p>Code and interfaces should make their intent obvious. Complexity is something to remove, not decorate.</p></article>
+            <article class="principle" data-reveal style="--delay:120ms"><span>02</span><h3>Details are functional</h3><p>Animation, feedback, loading and empty states aren't polish added at the end. They are part of the experience.</p></article>
+            <article class="principle" data-reveal style="--delay:240ms"><span>03</span><h3>Ship the whole thing</h3><p>A beautiful screen isn't a product. The product includes APIs, failures, permissions, releases and everything between.</p></article>
+          </div>
+        </div>
+      </section>
+
+      <section class="section contact" id="contact">
+        <div class="shell">
+          <div class="section-label" data-reveal><span>06 — Contact</span><span>Have something interesting?</span></div>
+          <h2 data-reveal>Let's make<br>something <em>real.</em></h2>
+          <div class="contact-row" data-reveal style="--delay:160ms">
+            <a class="contact-email" href="mailto:hello@example.com">hello@example.com ↗</a>
+            <div class="contact-links">
+              <a href="https://github.com/Vishnu0074" target="_blank" rel="noopener noreferrer">GitHub</a>
+              <a href="https://www.linkedin.com" target="_blank" rel="noopener noreferrer">LinkedIn</a>
+            </div>
+          </div>
+        </div>
+      </section>
     </main>
 
-    <section id="about" class="section">
-      <div class="glass-card">
-        <div class="section-heading">About</div>
-        <h2>Flutter-first portfolio with strong product focus.</h2>
-        <p>I'm a Flutter developer building intuitive apps that feel premium and fast. I combine UI craftsmanship with scalable code, motion design, and pixel-perfect layouts for mobile and web.</p>
-      </div>
-    </section>
-
-    <section id="work" class="section work-grid">
-      <article class="glass-card project-card">
-        <div class="section-heading">Featured</div>
-        <h3>Widget Studio</h3>
-        <p>A toolkit app for building reusable Flutter components with live preview, theme control, and layered interactions.</p>
-        <a href="#contact">See case study</a>
-      </article>
-      <article class="glass-card project-card">
-        <div class="section-heading">Featured</div>
-        <h3>Pulse Finance</h3>
-        <p>Modern finance app with sleek chart animations, secure onboarding, and responsive layout for both mobile and desktop.</p>
-        <a href="#contact">View details</a>
-      </article>
-    </section>
-
-    <section id="skills" class="section">
-      <div class="glass-card">
-        <div class="section-heading">Skills</div>
-        <h2>Flutter, Dart, UI, animation, and mobile-first product design.</h2>
-        <div class="skill-list">
-          <span class="skill-chip">Flutter</span>
-          <span class="skill-chip">Dart</span>
-          <span class="skill-chip">Clean Architecture</span>
-          <span class="skill-chip">Responsive UI</span>
-          <span class="skill-chip">Motion Design</span>
-          <span class="skill-chip">Firebase</span>
-          <span class="skill-chip">REST & GraphQL</span>
-          <span class="skill-chip">Cross-platform Web</span>
-        </div>
-      </div>
-    </section>
-
-    <footer id="contact" class="footer">
-      <div class="glass-card">
-        <div class="section-heading">Contact</div>
-        <h2>Let's build your next Flutter experience.</h2>
-        <p>I'm available for freelance work, collaboration, and new product opportunities.</p>
-        <div class="footer-actions">
-          <a href="mailto:hello@example.com">hello@example.com</a>
-          <a href="https://linkedin.com" target="_blank" rel="noopener noreferrer">LinkedIn</a>
-        </div>
-        <div class="social-icons">
-          <a class="social-icon" href="https://github.com" target="_blank" rel="noopener noreferrer" aria-label="GitHub">
-            <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor"><path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.387.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61-.546-1.387-1.333-1.757-1.333-1.757-1.09-.744.083-.729.083-.729 1.205.084 1.84 1.236 1.84 1.236 1.07 1.834 2.807 1.304 3.492.998.108-.776.418-1.304.762-1.604-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.468-2.38 1.235-3.22-.123-.303-.535-1.523.117-3.176 0 0 1.008-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.655 1.653.243 2.873.12 3.176.77.84 1.232 1.91 1.232 3.22 0 4.61-2.805 5.625-5.475 5.92.43.37.81 1.096.81 2.21 0 1.598-.015 2.884-.015 3.276 0 .32.21.694.825.576C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"/></svg>
-          </a>
-          <a class="social-icon" href="https://linkedin.com" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn">
-            <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor"><path d="M4.98 3.5C4.98 4.88 3.88 6 2.5 6S0 4.88 0 3.5 1.12 1 2.5 1 4.98 2.12 4.98 3.5zM.24 8.5h4.52V24H.24V8.5zm7.74 0h4.34v2.1h.06c.6-1.14 2.06-2.34 4.24-2.34 4.54 0 5.38 2.98 5.38 6.86V24h-4.52v-7.26c0-1.73-.03-3.96-2.41-3.96-2.42 0-2.8 1.9-2.8 3.86V24H8.0V8.5z"/></svg>
-          </a>
-          <a class="social-icon" href="https://twitter.com" target="_blank" rel="noopener noreferrer" aria-label="Twitter">
-            <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor"><path d="M24 4.557a9.83 9.83 0 0 1-2.828.775A4.932 4.932 0 0 0 23.337 3.3a9.864 9.864 0 0 1-3.127 1.195 4.916 4.916 0 0 0-8.384 4.482A13.94 13.94 0 0 1 1.671 3.149 4.916 4.916 0 0 0 3.195 9.72a4.9 4.9 0 0 1-2.228-.616c-.054 2.28 1.581 4.415 3.949 4.89a4.935 4.935 0 0 1-2.224.084 4.92 4.92 0 0 0 4.596 3.417A9.867 9.867 0 0 1 0 19.54a13.94 13.94 0 0 0 7.548 2.212c9.056 0 14.01-7.507 14.01-14.01 0-.214-.005-.426-.014-.637A10.012 10.012 0 0 0 24 4.557z"/></svg>
-          </a>
-          <a class="social-icon" href="mailto:hello@example.com" aria-label="Email">
-            <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor"><path d="M12 13.5L0 5V19c0 1.1.9 2 2 2h20c1.1 0 2-.9 2-2V5l-12 8.5zm0-2.1L22.16 5H1.84L12 11.4z"/></svg>
-          </a>
-        </div>
-      </div>
+    <footer class="shell">
+      <span>Vishnu Sajan</span>
+      <span>Designed & built with Flutter brain, web hands.</span>
+      <span>© 2026</span>
     </footer>
   </div>
+
+  <script>
+    const nav = document.getElementById('nav');
+    const revealItems = document.querySelectorAll('[data-reveal]');
+    const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    const revealObserver = reduceMotion ? null : new IntersectionObserver((entries, observer) => {
+      entries.forEach(entry => {
+        if (!entry.isIntersecting) return;
+        entry.target.classList.add('is-visible');
+        observer.unobserve(entry.target);
+      });
+    }, { threshold: 0.12, rootMargin: '0px 0px -8% 0px' });
+
+    if (reduceMotion) {
+      revealItems.forEach(el => el.classList.add('is-visible'));
+    } else {
+      revealItems.forEach(el => revealObserver.observe(el));
+    }
+
+    window.addEventListener('scroll', () => {
+      nav.classList.toggle('scrolled', window.scrollY > 24);
+    }, { passive: true });
+
+    document.querySelectorAll('.project').forEach(project => {
+      project.addEventListener('mousemove', event => {
+        const rect = project.getBoundingClientRect();
+        project.style.setProperty('--mx', ((event.clientX - rect.left) / rect.width * 100) + '%');
+      });
+    });
+  </script>
+</body>
+</html>
+
   <script>
     // ============================================================
     //  Swirl ASCII shader — ported from swirl.tsx to vanilla JS.
@@ -1221,7 +1395,7 @@ const mobileLogoLines = centerLogoLines([
       swirlControl.stop = stopSwirl;
       startSwirl();
     })();
+
   </script>
 </body>
-
 </html>
