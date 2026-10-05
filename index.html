@@ -892,12 +892,6 @@ const desktopLogoLines = [" "];
           }
 
           const cellX = col * atlasMetrics.charWidth;
-          // Keep the original blue ASCII field, but let a small animated fraction of glyphs
-          // surface in white. The accent is intentionally sparse so the blue remains dominant.
-          const whitePhase = floor(timeSwirl_s * 0.9);
-          const whiteSeed = abs(sin((row * 127.1 + col * 311.7 + whitePhase * 47.3) * 0.017));
-          const whiteAccent = whiteSeed > 0.94;
-          const glyphColor = whiteAccent ? WHITE_RGB : AMBER_RGB;
           pushGlyphInstance(
             layout,
             atlasMetrics,
@@ -905,7 +899,7 @@ const desktopLogoLines = [" "];
             glyphIndexForCharacter(cur_character),
             cellX,
             baseline,
-            glyphColor,
+            AMBER_RGB,
             1,
             state,
           );
