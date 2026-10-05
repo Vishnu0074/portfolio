@@ -634,6 +634,38 @@
 </html>
 
   <script>
+    const nav = document.getElementById('nav');
+    const revealItems = document.querySelectorAll('[data-reveal]');
+    const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    const revealObserver = reduceMotion ? null : new IntersectionObserver((entries, observer) => {
+      entries.forEach(entry => {
+        if (!entry.isIntersecting) return;
+        entry.target.classList.add('is-visible');
+        observer.unobserve(entry.target);
+      });
+    }, { threshold: 0.12, rootMargin: '0px 0px -8% 0px' });
+
+    if (reduceMotion) {
+      revealItems.forEach(el => el.classList.add('is-visible'));
+    } else {
+      revealItems.forEach(el => revealObserver.observe(el));
+    }
+
+    window.addEventListener('scroll', () => {
+      nav.classList.toggle('scrolled', window.scrollY > 24);
+    }, { passive: true });
+
+    document.querySelectorAll('.project').forEach(project => {
+      project.addEventListener('mousemove', event => {
+        const rect = project.getBoundingClientRect();
+        project.style.setProperty('--mx', ((event.clientX - rect.left) / rect.width * 100) + '%');
+      });
+    });
+  </script>
+</body>
+</html>
+
     // ============================================================
     //  Swirl ASCII shader — ported from swirl.tsx to vanilla JS.
     //  Gold/amber ASCII on black, white "MIDJOURNEY MEDICAL" logo.
@@ -892,12 +924,6 @@ const desktopLogoLines = [" "];
           }
 
           const cellX = col * atlasMetrics.charWidth;
-          // Keep the original blue ASCII field, but let a small animated fraction of glyphs
-          // surface in white. The accent is intentionally sparse so the blue remains dominant.
-          const whitePhase = floor(timeSwirl_s * 0.9);
-          const whiteSeed = abs(sin((row * 127.1 + col * 311.7 + whitePhase * 47.3) * 0.017));
-          const whiteAccent = whiteSeed > 0.94;
-          const glyphColor = whiteAccent ? WHITE_RGB : AMBER_RGB;
           pushGlyphInstance(
             layout,
             atlasMetrics,
@@ -905,7 +931,7 @@ const desktopLogoLines = [" "];
             glyphIndexForCharacter(cur_character),
             cellX,
             baseline,
-            glyphColor,
+            AMBER_RGB,
             1,
             state,
           );
@@ -1388,7 +1414,7 @@ const desktopLogoLines = [" "];
       swirlControl.stop = stopSwirl;
       startSwirl();
     })();
-
   </script>
 </body>
+
 </html>
